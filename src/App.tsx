@@ -64,8 +64,12 @@ function App() {
     dispatch({ type: 'TOGGLE_DARK_MODE' });
   };
 
-  // Get active tab
-  const activeTab = state.tabs.find((tab) => tab.id === state.activeTabId);
+  // Get active tab (must match current module type)
+  const activeTab = state.tabs.find(
+    (tab) =>
+      tab.id === state.activeTabId &&
+      (state.activeModule === 'library' || tab.moduleType === state.activeModule)
+  );
 
   // Filter content blocks based on library filter
   const filteredBlocks = state.contentBlocks.filter((block) => {
