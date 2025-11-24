@@ -1,9 +1,10 @@
 import { useReducer, useEffect } from 'react';
 import { appReducer } from './state/appReducer';
 import { INITIAL_STATE } from './initialData';
-import type { RecruitmentBuilderState, ProfileModuleState, JobAdModuleState } from './types';
+import type { RecruitmentBuilderState, ProfileModuleState, JobAdModuleState, CaseStudyModuleState } from './types';
 import ProfileBuilder from './components/profiles/ProfileBuilder';
 import JobAdBuilder from './components/jobads/JobAdBuilder';
+import CaseStudyBuilder from './components/casestudies/CaseStudyBuilder';
 import ContentLibraryPanel from './components/shared/ContentLibraryPanel';
 import './App.css';
 
@@ -382,6 +383,40 @@ function App() {
                       jobAdId,
                       sectionId,
                       newPosition
+                    })
+                  }
+                />
+              ) : state.activeModule === 'casestudies' && activeTab ? (
+                <CaseStudyBuilder
+                  moduleState={activeTab.state as CaseStudyModuleState}
+                  contentBlocks={state.contentBlocks}
+                  onUpdateCaseStudy={(caseStudyId, updates) =>
+                    dispatch({
+                      type: 'UPDATE_CASE_STUDY',
+                      tabId: activeTab.id,
+                      caseStudyId,
+                      updates
+                    })
+                  }
+                  onSelectCaseStudy={(caseStudyId) =>
+                    dispatch({
+                      type: 'SELECT_CASE_STUDY',
+                      tabId: activeTab.id,
+                      caseStudyId
+                    })
+                  }
+                  onAddCaseStudy={(caseStudy) =>
+                    dispatch({
+                      type: 'ADD_CASE_STUDY',
+                      tabId: activeTab.id,
+                      caseStudy
+                    })
+                  }
+                  onDeleteCaseStudy={(caseStudyId) =>
+                    dispatch({
+                      type: 'DELETE_CASE_STUDY',
+                      tabId: activeTab.id,
+                      caseStudyId
                     })
                   }
                 />
