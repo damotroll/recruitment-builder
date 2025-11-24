@@ -4,11 +4,7 @@ import type {
   Tab,
   ProfileModuleState,
   JobAdModuleState,
-  CaseStudyModuleState,
-  CandidateProfile,
-  JobAd,
-  CaseStudy,
-  ContentBlock
+  CaseStudyModuleState
 } from '../types';
 
 export function appReducer(

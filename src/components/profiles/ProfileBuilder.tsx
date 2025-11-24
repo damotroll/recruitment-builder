@@ -27,7 +27,7 @@ export default function ProfileBuilder({
   contentBlocks,
   archetypes,
   onUpdateProfile,
-  onSelectProfile,
+  onSelectProfile: _onSelectProfile,
   onAddProfile,
   onDeleteProfile,
   onAddSkillToProfile,
