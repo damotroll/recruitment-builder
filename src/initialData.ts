@@ -467,7 +467,7 @@ export const INITIAL_STATE: RecruitmentBuilderState = {
   tabs: [],
   activeTabId: null,
   activeModule: 'library',
-  darkMode: false,
+  darkMode: true,
   libraryFilter: {},
   previewVisible: false
 };
