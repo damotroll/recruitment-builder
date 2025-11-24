@@ -248,8 +248,8 @@ textarea {
 /* ============================================ */
 
 .library-view {
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
 }
 
 .library-header {
@@ -390,8 +390,8 @@ textarea {
 /* ============================================ */
 
 .module-view {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
 }
 
 .tab-content {
