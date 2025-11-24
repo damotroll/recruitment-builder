@@ -1,8 +1,9 @@
 import { useReducer, useEffect } from 'react';
 import { appReducer } from './state/appReducer';
 import { INITIAL_STATE } from './initialData';
-import type { RecruitmentBuilderState, ProfileModuleState } from './types';
+import type { RecruitmentBuilderState, ProfileModuleState, JobAdModuleState } from './types';
 import ProfileBuilder from './components/profiles/ProfileBuilder';
+import JobAdBuilder from './components/jobads/JobAdBuilder';
 import ContentLibraryPanel from './components/shared/ContentLibraryPanel';
 import './App.css';
 
@@ -313,6 +314,74 @@ function App() {
                       profileId,
                       skillId,
                       required
+                    })
+                  }
+                />
+              ) : state.activeModule === 'jobads' && activeTab ? (
+                <JobAdBuilder
+                  moduleState={activeTab.state as JobAdModuleState}
+                  contentBlocks={state.contentBlocks}
+                  onUpdateJobAd={(jobAdId, updates) =>
+                    dispatch({
+                      type: 'UPDATE_JOB_AD',
+                      tabId: activeTab.id,
+                      jobAdId,
+                      updates
+                    })
+                  }
+                  onSelectJobAd={(jobAdId) =>
+                    dispatch({
+                      type: 'SELECT_JOB_AD',
+                      tabId: activeTab.id,
+                      jobAdId
+                    })
+                  }
+                  onAddJobAd={(jobAd) =>
+                    dispatch({
+                      type: 'ADD_JOB_AD',
+                      tabId: activeTab.id,
+                      jobAd
+                    })
+                  }
+                  onDeleteJobAd={(jobAdId) =>
+                    dispatch({
+                      type: 'DELETE_JOB_AD',
+                      tabId: activeTab.id,
+                      jobAdId
+                    })
+                  }
+                  onAddSection={(jobAdId, section) =>
+                    dispatch({
+                      type: 'ADD_SECTION_TO_JOB_AD',
+                      tabId: activeTab.id,
+                      jobAdId,
+                      section
+                    })
+                  }
+                  onUpdateSection={(jobAdId, sectionId, updates) =>
+                    dispatch({
+                      type: 'UPDATE_SECTION',
+                      tabId: activeTab.id,
+                      jobAdId,
+                      sectionId,
+                      updates
+                    })
+                  }
+                  onRemoveSection={(jobAdId, sectionId) =>
+                    dispatch({
+                      type: 'REMOVE_SECTION',
+                      tabId: activeTab.id,
+                      jobAdId,
+                      sectionId
+                    })
+                  }
+                  onReorderSection={(jobAdId, sectionId, newPosition) =>
+                    dispatch({
+                      type: 'REORDER_SECTION',
+                      tabId: activeTab.id,
+                      jobAdId,
+                      sectionId,
+                      newPosition
                     })
                   }
                 />

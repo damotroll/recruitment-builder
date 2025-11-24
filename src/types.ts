@@ -69,44 +69,47 @@ export interface CandidateArchetype {
 
 export interface JobAd {
   id: string;
-  title: string;                 // "Product Manager - API & Integrations"
-  specialization: string;
-  candidateProfileId: string | null; // Optional reference to profile
+  title: string;                 // Internal title for the job ad
+  roleTitle: string;             // "Product Manager - API & Integrations"
+  department: string;            // "Product", "Engineering", etc.
+  location: string;              // "Remote", "Oslo, Norway", etc.
+  employmentType: 'full-time' | 'part-time' | 'contract' | 'internship';
+  seniorityLevel: 'junior' | 'mid' | 'senior' | 'principal' | 'staff';
 
   // Structured sections (drag-dropped content blocks)
   sections: JobAdSection[];
 
   // Metadata for customization
-  hiringManager: {
-    name: string;
-    title: string;
-    message: string;             // Personalized message
+  metadata?: {
+    salaryRange?: string;
+    benefits?: string[];
+    requiresVisaSponsorship?: boolean;
+    hiringManager?: {
+      name: string;
+      title: string;
+      message: string;             // Personalized message
+    };
+    variableSubstitutions?: {
+      [key: string]: string;       // e.g., {{SIM_WORK_WITH_GREAT_PEOPLE}} → contentBlockId
+    };
   };
 
-  // Generated from env.md style variables
-  variableSubstitutions: {
-    [key: string]: string;       // e.g., {{SIM_WORK_WITH_GREAT_PEOPLE}} → contentBlockId
-  };
-
-  status: 'draft' | 'active' | 'archived';
+  candidateProfileId?: string | null; // Optional reference to profile
+  status?: 'draft' | 'active' | 'archived';
   createdAt: string;
   updatedAt: string;
 }
 
 export interface JobAdSection {
   id: string;
+  type: 'intro' | 'responsibilities' | 'requirements' | 'benefits' | 'process' | 'company' | 'custom';
   title: string;                 // "What We Offer", "Skills & Requirements"
   position: number;              // Order in job ad
-  contentType: 'library' | 'custom' | 'variable';
 
-  // If library: reference to content blocks
-  contentBlockIds?: string[];
-
-  // If custom: inline content
-  customContent?: string;
-
-  // If variable: reference to env.md style variable
-  variableName?: string;         // e.g., {{SIM_WORK_WITH_GREAT_PEOPLE}}
+  // Content can come from multiple sources
+  contentBlockIds: string[];     // References to content blocks
+  content?: string;              // Additional static content
+  customMarkdown?: string;       // For custom sections
 }
 
 // ============================================
