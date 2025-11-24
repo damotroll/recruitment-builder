@@ -1,7 +1,9 @@
 import { useReducer, useEffect } from 'react';
 import { appReducer } from './state/appReducer';
 import { INITIAL_STATE } from './initialData';
-import type { RecruitmentBuilderState } from './types';
+import type { RecruitmentBuilderState, ProfileModuleState } from './types';
+import ProfileBuilder from './components/profiles/ProfileBuilder';
+import ContentLibraryPanel from './components/shared/ContentLibraryPanel';
 import './App.css';
 
 const STORAGE_KEY = 'recruitment-builder-state';
@@ -249,20 +251,89 @@ function App() {
             </div>
           </div>
         ) : (
-          <div className="module-view">
-            {activeTab ? (
-              <div className="tab-content">
-                <h2>{state.activeModule.toUpperCase()} Module</h2>
-                <p>Active Tab: {activeTab.name}</p>
-                <p className="coming-soon">
-                  Module UI coming soon. This demonstrates the foundation is working!
-                </p>
-              </div>
-            ) : (
-              <div className="empty-state">
-                <p>No tabs open. Click "+ New Tab" to get started.</p>
-              </div>
-            )}
+          <div className="module-with-library">
+            {/* Content Library Panel */}
+            <ContentLibraryPanel
+              contentBlocks={state.contentBlocks}
+              libraryFilter={state.libraryFilter}
+              onSetFilter={(filter) =>
+                dispatch({ type: 'SET_LIBRARY_FILTER', filter })
+              }
+            />
+
+            {/* Module Content */}
+            <div className="module-content">
+              {state.activeModule === 'profiles' && activeTab ? (
+                <ProfileBuilder
+                  moduleState={activeTab.state as ProfileModuleState}
+                  contentBlocks={state.contentBlocks}
+                  archetypes={state.candidateArchetypes}
+                  onUpdateProfile={(profileId, updates) =>
+                    dispatch({
+                      type: 'UPDATE_PROFILE',
+                      tabId: activeTab.id,
+                      profileId,
+                      updates
+                    })
+                  }
+                  onSelectProfile={(profileId) =>
+                    dispatch({
+                      type: 'SELECT_PROFILE',
+                      tabId: activeTab.id,
+                      profileId
+                    })
+                  }
+                  onAddProfile={(profile) =>
+                    dispatch({
+                      type: 'ADD_PROFILE',
+                      tabId: activeTab.id,
+                      profile
+                    })
+                  }
+                  onDeleteProfile={(profileId) =>
+                    dispatch({
+                      type: 'DELETE_PROFILE',
+                      tabId: activeTab.id,
+                      profileId
+                    })
+                  }
+                  onAddSkillToProfile={(profileId, skillId, required) =>
+                    dispatch({
+                      type: 'ADD_SKILL_TO_PROFILE',
+                      tabId: activeTab.id,
+                      profileId,
+                      skillId,
+                      required
+                    })
+                  }
+                  onRemoveSkillFromProfile={(profileId, skillId, required) =>
+                    dispatch({
+                      type: 'REMOVE_SKILL_FROM_PROFILE',
+                      tabId: activeTab.id,
+                      profileId,
+                      skillId,
+                      required
+                    })
+                  }
+                />
+              ) : (
+                <div className="module-view">
+                  {activeTab ? (
+                    <div className="tab-content">
+                      <h2>{state.activeModule.toUpperCase()} Module</h2>
+                      <p>Active Tab: {activeTab.name}</p>
+                      <p className="coming-soon">
+                        Module UI coming soon. This demonstrates the foundation is working!
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="empty-state">
+                      <p>No tabs open. Click "+ New Tab" to get started.</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </main>
